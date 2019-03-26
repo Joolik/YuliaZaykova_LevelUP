@@ -8,6 +8,7 @@ import java.io.*;
  * @version 1.0 25.03.2019
  * @author Yulia Zaykova
  */
+// TODO класс не запускается
 public class Calculator {
 
     public static void main(String[] args) {
@@ -56,6 +57,7 @@ public class Calculator {
                                                            "[+*^!-]");
 
                 // Input second argument arg2
+                // TODO IDEA error: Incompatible types. Found: 'java.lang.String', required: 'byte, char, short or int'
                 switch (operation) {
                     case "+":
                     case "-":
@@ -72,6 +74,7 @@ public class Calculator {
 
                 // Result output
                 System.out.print(" -> RESULT: ");
+                // TODO IDEA error: Incompatible types. Found: 'java.lang.String', required: 'byte, char, short or int'
                 switch (operation) {
                     case "+":
                         if ((arg1 instanceof Double) || (arg2 instanceof Double)) {
