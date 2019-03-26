@@ -32,8 +32,9 @@ public class Calculator {
         double dVar1, dVar2;
         double fact;  // factorial
 
-        String operation;
+        // String operation;
         String quit = "n";
+        char operation;
 
         // Initial hint for user
         System.out.println("This calculator supports operations:");
@@ -45,7 +46,6 @@ public class Calculator {
         System.out.println("You can exit from program after each operation.");
 
         try {
-            //
             while (!quit.toLowerCase().equals("q")) {
                 System.out.println();
 
@@ -53,18 +53,18 @@ public class Calculator {
                 arg1 = objReader.inputNumber("Enter x:");
 
                 // Input operation
-                operation = objReader.inputStringByPattern("Choose operation ( + - * ^ ! ) : ",
+                operation = objReader.inputCharByPattern("Choose operation ( + - * ^ ! ) : ",
                                                            "[+*^!-]");
 
                 // Input second argument arg2
                 // TODO IDEA error: Incompatible types. Found: 'java.lang.String', required: 'byte, char, short or int'
                 switch (operation) {
-                    case "+":
-                    case "-":
-                    case "*":
+                    case '+':
+                    case '-':
+                    case '*':
                         arg2 = objReader.inputNumber("Enter y:");
                         break;
-                    case "^":
+                    case '^':
                         arg2 = objReader.inputIntNumber("Enter y (integer):");
                         break;
                     default:
@@ -76,7 +76,7 @@ public class Calculator {
                 System.out.print(" -> RESULT: ");
                 // TODO IDEA error: Incompatible types. Found: 'java.lang.String', required: 'byte, char, short or int'
                 switch (operation) {
-                    case "+":
+                    case '+':
                         if ((arg1 instanceof Double) || (arg2 instanceof Double)) {
                             dVar1 = arg1.doubleValue();
                             dVar2 = arg2.doubleValue();
@@ -91,7 +91,7 @@ public class Calculator {
                             System.out.println(iVar1 + " + " + iVar2 + " = " + objAdd.add(iVar1, iVar2));
                         }
                         break;
-                    case "-":
+                    case '-':
                         if ((arg1 instanceof Double) || (arg2 instanceof Double)) {
                             dVar1 = arg1.doubleValue();
                             dVar2 = arg2.doubleValue();
@@ -106,7 +106,7 @@ public class Calculator {
                             System.out.println(iVar1 + " - " + iVar2 + " = " + objSub.subtract(iVar1, iVar2));
                         }
                         break;
-                    case "*":
+                    case '*':
                         if ((arg1 instanceof Double) || (arg2 instanceof Double)) {
                             dVar1 = arg1.doubleValue();
                             dVar2 = arg2.doubleValue();
@@ -121,7 +121,7 @@ public class Calculator {
                             System.out.println(iVar1 + " * " + iVar2 + " = " + objMult.multiply(iVar1, iVar2));
                         }
                         break;
-                    case "^":
+                    case '^':
                         iVar2 = arg2.intValue();
                         if (arg1 instanceof Double) {
                             dVar1 = arg1.doubleValue();
@@ -134,7 +134,7 @@ public class Calculator {
                             System.out.println(iVar1 + " ^ " + iVar2 + " = " + objPow.power(iVar1, iVar2));
                         }
                         break;
-                    case "!":
+                    case '!':
                         if ((arg1 instanceof Integer) && (arg1.intValue() >= 0)) {
                             iVar1 = arg1.intValue();
                             fact = objFact.factorial(iVar1);
