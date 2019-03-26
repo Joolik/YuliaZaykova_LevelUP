@@ -1,6 +1,13 @@
 package ru.levelup.yulia.zaykova.qa.homework_1.task_1;
 
+/**
+ * Умножение чисел
+ * int int
+ * long long
+ * double double
+ */
 public class Multiplication {
+
     public double multiply(int x, int y) {
         return (double) ( x * y );
     }

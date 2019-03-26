@@ -1,5 +1,11 @@
 package ru.levelup.yulia.zaykova.qa.homework_1.task_1;
 
+/**
+ * Сложение чисел
+ * int int
+ * long long
+ * double double
+ */
 public class Addition {
 
     public double add(int x, int y) {

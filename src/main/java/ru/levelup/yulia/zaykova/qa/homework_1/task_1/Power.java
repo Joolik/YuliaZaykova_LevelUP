@@ -1,7 +1,17 @@
 package ru.levelup.yulia.zaykova.qa.homework_1.task_1;
 
+/**
+ * Возведение числа (int, long, double) в степень (int)
+ */
 public class Power {
 
+    /**
+     * Возведение числа в степень
+     *
+     * @param base
+     * @param p
+     * @return Возвращает значение типа double или Infinity при возведении нуля в отрицательную степень
+     */
     public double power(int base, int p) {
         double result=1;
 
@@ -62,6 +72,12 @@ public class Power {
         return result;
     }
 
+    /**
+     * Определение модуля целого числа
+     *
+     * @param p
+     * @return Модуль числа p
+     */
     private int abs(int p) {
         return (p >= 0) ? p : -p;
     }

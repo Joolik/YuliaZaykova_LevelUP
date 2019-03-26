@@ -1,12 +1,15 @@
 package ru.levelup.yulia.zaykova.qa.homework_1.task_1;
 
+/**
+ * Вычисление факториала числа (int)
+ */
 public class Factorial {
 
     /**
      * Вычисление факториала
      *
      * @param n >= 0
-     * @return n! = 1*2*..*n, 0!=1.
+     * @return n! = 1*2*..*n, 0!=1
      * @return -1 при переполнении
      * @return 0, если входной параметр n < 0
      */

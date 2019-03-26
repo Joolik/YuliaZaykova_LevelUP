@@ -16,6 +16,7 @@ public class BufReaderInput {
     /** Поле для строки, введенной в консоли*/
     private String line;
 
+
     /**
      * Конструктор
      *
@@ -26,7 +27,7 @@ public class BufReaderInput {
     }
 
     /**
-     * Ввод с консоли числа типа int, long или double
+     * Ввод с консоли числа типа Integer, Long или Double
      *
      * @param prompt Строка-приглашение
      * @return Введенное с консоли число типа Number
