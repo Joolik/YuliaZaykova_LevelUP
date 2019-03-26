@@ -1,10 +1,17 @@
 package ru.levelup.yulia.zaykova.qa.homework_1.task_1;
 
+/**
+ * Класс для преобразования строки в число
+ */
 public class ParseString {
 
-    //char parseOperation() {}
-
-    Number parseNumber(String str){
+    /**
+     * Преобразование строки в число типа Integer, Long или Double
+     *
+     * @param str Строка
+     * @return Число типа Number или null, если строка не может быть преобразована в число
+     */
+    public Number parseNumber(String str){
         if (isInteger(str)){
             return (new Integer(str));
         }
@@ -17,7 +24,13 @@ public class ParseString {
         return null;
     }
 
-    boolean isInteger(String str){
+    /**
+     * Проверка возможности преобразования строки в число типа int
+     *
+     * @param str Строка
+     * @return Возвращает true, если строка может быть преобразована в int, иначе false
+     */
+    public boolean isInteger(String str){
         try{
             Integer.parseInt(str);
             return true;
@@ -27,7 +40,13 @@ public class ParseString {
         }
     }
 
-    boolean isLong(String str){
+    /**
+     * Проверка возможности преобразования строки в число типа long
+     *
+     * @param str Строка
+     * @return Возвращает true, если строка может быть преобразована в long, иначе false
+     */
+    public boolean isLong(String str){
         try{
             Long.parseLong(str);
             return true;
@@ -37,7 +56,13 @@ public class ParseString {
         }
     }
 
-    boolean isDouble(String str){
+    /**
+     * Проверка возможности преобразования строки в число типа double
+     *
+     * @param str Строка
+     * @return Возвращает true, если строка может быть преобразована в double, иначе false
+     */
+    public boolean isDouble(String str){
         try{
             Double.parseDouble(str);
             return true;

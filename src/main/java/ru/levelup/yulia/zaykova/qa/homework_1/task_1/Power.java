@@ -9,6 +9,7 @@ public class Power {
             return 1;
         } else if (base == 0) {
             result = (p > 0) ? 0 : Double.POSITIVE_INFINITY;
+            return result;
         } else {
             for(int i=1; i <= abs(p); i++) {
                 result *= base;
@@ -28,6 +29,7 @@ public class Power {
             return 1;
         } else if (base == 0) {
             result = (p > 0) ? 0 : Double.POSITIVE_INFINITY;
+            return result;
         } else {
             for(int i=1; i <= abs(p); i++) {
                 result *= base;
@@ -60,7 +62,7 @@ public class Power {
         return result;
     }
 
-    int abs(int p) {
+    private int abs(int p) {
         return (p >= 0) ? p : -p;
     }
 

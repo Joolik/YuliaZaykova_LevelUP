@@ -1,7 +1,13 @@
 package ru.levelup.yulia.zaykova.qa.homework_1.task_1;
 
-import java.util.Scanner;
+import java.io.*;
 
+/**
+ * Calculator
+ *
+ * @version 1.0 25.03.2019
+ * @author Yulia Zaykova
+ */
 public class Calculator {
 
     public static void main(String[] args) {
@@ -10,9 +16,8 @@ public class Calculator {
     }
 
     public void startCalculator() {
-        Scanner scanner = new Scanner(System.in);
-
-        ScannerInput objInput = new ScannerInput(scanner);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        BufReaderInput objReader  = new BufReaderInput(reader);
 
         Addition objAdd = new Addition();
         Subtraction objSub = new Subtraction();
@@ -21,11 +26,13 @@ public class Calculator {
         Factorial objFact = new Factorial();
 
         Number arg1, arg2;
-        int iVar;
+        int iVar1, iVar2;
+        long lVar1, lVar2;
         double dVar1, dVar2;
-        String line;
+        double fact;  // factorial
+
         String operation;
-        String quit = "y";
+        String quit = "n";
 
         // Initial hint for user
         System.out.println("This calculator supports operations:");
@@ -36,73 +43,120 @@ public class Calculator {
         System.out.println(" x!    factorial (x>=0)");
         System.out.println("You can exit from program after each operation.");
 
-        while (!quit.toLowerCase().equals("q")) {
-            System.out.println();
+        try {
+            //
+            while (!quit.toLowerCase().equals("q")) {
+                System.out.println();
 
-            // Input first argument arg1
-            arg1 = objInput.inputNumber("Enter x:");
+                // Input first argument arg1
+                arg1 = objReader.inputNumber("Enter x:");
 
-            // Input operation
-            operation = objInput.inputStringByPattern("Choose operation ( + - * ^ ! ) : ","[+\\*^!\\-]");
+                // Input operation
+                operation = objReader.inputStringByPattern("Choose operation ( + - * ^ ! ) : ",
+                                                           "[+*^!-]");
 
-            // Input second argument arg2
-            switch (operation) {
-                case "+":
-                case "-":
-                case "*":
-                    arg2 = objInput.inputNumber("Enter y:");
-                    break;
-                case "^":
-                    arg2 = objInput.inputIntNumber("Enter y (integer):");
-                    break;
-                default:
-                    arg2 = null;
-                    break;
+                // Input second argument arg2
+                switch (operation) {
+                    case "+":
+                    case "-":
+                    case "*":
+                        arg2 = objReader.inputNumber("Enter y:");
+                        break;
+                    case "^":
+                        arg2 = objReader.inputIntNumber("Enter y (integer):");
+                        break;
+                    default:
+                        arg2 = null;
+                        break;
+                }
+
+                // Result output
+                System.out.print(" -> RESULT: ");
+                switch (operation) {
+                    case "+":
+                        if ((arg1 instanceof Double) || (arg2 instanceof Double)) {
+                            dVar1 = arg1.doubleValue();
+                            dVar2 = arg2.doubleValue();
+                            System.out.println(dVar1 + " + " + dVar2 + " = " + objAdd.add(dVar1, dVar2));
+                        } else if ((arg1 instanceof Long) || (arg2 instanceof Long)) {
+                            lVar1 = arg1.longValue();
+                            lVar2 = arg2.longValue();
+                            System.out.println(lVar1 + " + " + lVar2 + " = " + objAdd.add(lVar1, lVar2));
+                        } else {
+                            iVar1 = arg1.intValue();
+                            iVar2 = arg2.intValue();
+                            System.out.println(iVar1 + " + " + iVar2 + " = " + objAdd.add(iVar1, iVar2));
+                        }
+                        break;
+                    case "-":
+                        if ((arg1 instanceof Double) || (arg2 instanceof Double)) {
+                            dVar1 = arg1.doubleValue();
+                            dVar2 = arg2.doubleValue();
+                            System.out.println(dVar1 + " - " + dVar2 + " = " + objSub.subtract(dVar1, dVar2));
+                        } else if ((arg1 instanceof Long) || (arg2 instanceof Long)) {
+                            lVar1 = arg1.longValue();
+                            lVar2 = arg2.longValue();
+                            System.out.println(lVar1 + " - " + lVar2 + " = " + objSub.subtract(lVar1, lVar2));
+                        } else {
+                            iVar1 = arg1.intValue();
+                            iVar2 = arg2.intValue();
+                            System.out.println(iVar1 + " - " + iVar2 + " = " + objSub.subtract(iVar1, iVar2));
+                        }
+                        break;
+                    case "*":
+                        if ((arg1 instanceof Double) || (arg2 instanceof Double)) {
+                            dVar1 = arg1.doubleValue();
+                            dVar2 = arg2.doubleValue();
+                            System.out.println(dVar1 + " * " + dVar2 + " = " + objMult.multiply(dVar1, dVar2));
+                        } else if ((arg1 instanceof Long) || (arg2 instanceof Long)) {
+                            lVar1 = arg1.longValue();
+                            lVar2 = arg2.longValue();
+                            System.out.println(lVar1 + " * " + lVar2 + " = " + objMult.multiply(lVar1, lVar2));
+                        } else {
+                            iVar1 = arg1.intValue();
+                            iVar2 = arg2.intValue();
+                            System.out.println(iVar1 + " * " + iVar2 + " = " + objMult.multiply(iVar1, iVar2));
+                        }
+                        break;
+                    case "^":
+                        iVar2 = arg2.intValue();
+                        if (arg1 instanceof Double) {
+                            dVar1 = arg1.doubleValue();
+                            System.out.println(dVar1 + " ^ " + iVar2 + " = " + objPow.power(dVar1, iVar2));
+                        } else if (arg1 instanceof Long) {
+                            lVar1 = arg1.longValue();
+                            System.out.println(lVar1 + " ^ " + iVar2 + " = " + objPow.power(lVar1, iVar2));
+                        } else {
+                            iVar1 = arg1.intValue();
+                            System.out.println(iVar1 + " ^ " + iVar2 + " = " + objPow.power(iVar1, iVar2));
+                        }
+                        break;
+                    case "!":
+                        if ((arg1 instanceof Integer) && (arg1.intValue() >= 0)) {
+                            iVar1 = arg1.intValue();
+                            fact = objFact.factorial(iVar1);
+                            if (fact > 0) {
+                                System.out.println(iVar1 + "! = " + fact);
+                            } else if (fact == -1) {
+                                System.out.println(" ERROR: Overflow.");
+                            }
+                        } else {
+                            System.out.println(" ERROR: Argument must be integer number >= 0 !");
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                System.out.println();
+
+                // Input Q or q to exit
+                quit = objReader.inputStringByPattern("Press 'Enter' to continue or 'Q' to exit. ",
+                                                      "[qQ]*");
             }
-
-            // Output result
-            System.out.print(" -> RESULT: ");
-            switch (operation) {
-                case "+":
-                    dVar1 = arg1.doubleValue();
-                    dVar2 = arg2.doubleValue();
-                    System.out.println(dVar1 + " + " + dVar2 + " = " + objAdd.add(dVar1, dVar2));
-                    break;
-                case "-":
-                    dVar1 = arg1.doubleValue();
-                    dVar2 = arg2.doubleValue();
-                    System.out.println(dVar1 + " - " + dVar2 + " = " + objSub.subtract(dVar1, dVar2));
-                    break;
-                case "*":
-                    dVar1 = arg1.doubleValue();
-                    dVar2 = arg2.doubleValue();
-                    System.out.println(dVar1 + " * " + dVar2 + " = " + objMult.multiply(dVar1, dVar2));
-                    break;
-                case "^":
-                    dVar1 = arg1.doubleValue();
-                    iVar = arg2.intValue();
-                    System.out.println(dVar1 + " ^ " + iVar + " = " + objPow.power(dVar1, iVar));
-                    break;
-                case "!":
-                    iVar = arg1.intValue();
-                    if ((iVar >= 0) && (iVar < 21)) {
-                        System.out.println(iVar + "! = " + objFact.factorial(iVar));
-                    } else if (iVar < 0) {
-                        System.out.println("(" + iVar + ")!  ERROR: Wrong negative argument");
-                    } else {
-                        System.out.println("Result is too big.");
-                    }
-                    break;
-                default:
-                    break;
-            }
-            System.out.println();
-
-             // Input Q or q to exit
-             quit = objInput.inputStringByPattern("Press 'Enter' to continue or 'Q' to exit", "[qQ]*");
+            reader.close();
+            } catch (IOException e) {
+            e.printStackTrace();
         }
-
-            scanner.close();
             System.out.print("Bye-bye! See you later.");
     }
 
