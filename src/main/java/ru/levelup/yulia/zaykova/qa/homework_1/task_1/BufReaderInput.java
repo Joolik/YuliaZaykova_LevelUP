@@ -69,12 +69,6 @@ public class BufReaderInput {
      * @return Введенная с консоли строка
      * @throws IOException
      */
-    public char inputCharByPattern(String prompt, String pattern) throws IOException {
-        do {
-            input(prompt);
-        } while (!line.trim().matches(pattern));
-        return line.trim().charAt(0);
-    }
 
     public String inputStringByPattern(String prompt, String pattern) throws IOException {
         do {
