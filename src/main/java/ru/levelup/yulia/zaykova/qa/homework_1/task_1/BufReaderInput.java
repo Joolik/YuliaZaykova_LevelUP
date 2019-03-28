@@ -35,6 +35,7 @@ public class BufReaderInput {
      */
     public Number inputNumber(String prompt) throws IOException {
         input(prompt);
+        // TODO new ParseString() - можно вынести как переменную в поле класса и инициализировать в конструкторе
         num = new ParseString().parseNumber(line);
         while (num == null) {
             input("Wrong number format! Try again.  " + prompt);
@@ -83,6 +84,7 @@ public class BufReaderInput {
      * @param prompt Строка-приглашение
      * @throws IOException
      */
+    // TODO было бы лучше, не использовать глобальную переменную для хранения введённого значения, а просто возвращать его для последующей обработки
     private void input(String prompt) throws IOException {
         System.out.print(prompt + " ");
         line = bufReader.readLine();

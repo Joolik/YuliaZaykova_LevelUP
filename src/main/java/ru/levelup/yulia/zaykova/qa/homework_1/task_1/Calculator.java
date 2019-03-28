@@ -8,7 +8,6 @@ import java.io.*;
  * @version 1.0 25.03.2019
  * @author Yulia Zaykova
  */
-// TODO класс не запускается
 public class Calculator {
 
     public static void main(String[] args) {
@@ -56,7 +55,6 @@ public class Calculator {
                                                            "[+*^!-]");
 
                 // Input second argument arg2
-                // TODO IDEA error: Incompatible types. Found: 'java.lang.String', required: 'byte, char, short or int'
                 switch (operation) {
                     case "+":
                     case "-":
@@ -73,13 +71,16 @@ public class Calculator {
 
                 // Result output
                 System.out.print(" -> RESULT: ");
-                // TODO IDEA error: Incompatible types. Found: 'java.lang.String', required: 'byte, char, short or int'
                 switch (operation) {
                     case "+":
+                        // TODO лучше было бы использовать && instead of || до второй части как правило не доходит
+                        // TODO логику операций +, -, * и ^ лучше спрятать в соответствующих классах
                         if ((arg1 instanceof Double) || (arg2 instanceof Double)) {
+                            // TODO agr*.*Value() можно передавать сразу как параметры в метод
                             dVar1 = arg1.doubleValue();
                             dVar2 = arg2.doubleValue();
                             System.out.println(dVar1 + " + " + dVar2 + " = " + objAdd.add(dVar1, dVar2));
+                            // TODO лучше было бы использовать && instead of || до второй части как правило не доходит
                         } else if ((arg1 instanceof Long) || (arg2 instanceof Long)) {
                             lVar1 = arg1.longValue();
                             lVar2 = arg2.longValue();
@@ -91,10 +92,12 @@ public class Calculator {
                         }
                         break;
                     case "-":
+                        // TODO лучше было бы использовать && instead of || до второй части как правило не доходит
                         if ((arg1 instanceof Double) || (arg2 instanceof Double)) {
                             dVar1 = arg1.doubleValue();
                             dVar2 = arg2.doubleValue();
                             System.out.println(dVar1 + " - " + dVar2 + " = " + objSub.subtract(dVar1, dVar2));
+                            // TODO лучше было бы использовать && instead of || до второй части как правило не доходит
                         } else if ((arg1 instanceof Long) || (arg2 instanceof Long)) {
                             lVar1 = arg1.longValue();
                             lVar2 = arg2.longValue();
@@ -106,10 +109,12 @@ public class Calculator {
                         }
                         break;
                     case "*":
+                        // TODO лучше было бы использовать && instead of || до второй части как правило не доходит
                         if ((arg1 instanceof Double) || (arg2 instanceof Double)) {
                             dVar1 = arg1.doubleValue();
                             dVar2 = arg2.doubleValue();
                             System.out.println(dVar1 + " * " + dVar2 + " = " + objMult.multiply(dVar1, dVar2));
+                            // TODO лучше было бы использовать && instead of || до второй части как правило не доходит
                         } else if ((arg1 instanceof Long) || (arg2 instanceof Long)) {
                             lVar1 = arg1.longValue();
                             lVar2 = arg2.longValue();
@@ -155,6 +160,7 @@ public class Calculator {
                 quit = objReader.inputStringByPattern("Press 'Enter' to continue or 'Q' to exit. ",
                                                       "[qQ]*");
             }
+            // TODO закрытие потоков ввода/вывода лучше закрывать в блоке finally
             reader.close();
             } catch (IOException e) {
             e.printStackTrace();
