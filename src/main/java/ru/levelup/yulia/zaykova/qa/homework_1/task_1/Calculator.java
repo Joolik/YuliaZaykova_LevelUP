@@ -5,8 +5,8 @@ import java.io.*;
 /**
  * Calculator
  *
- * @version 1.0 25.03.2019
  * @author Yulia Zaykova
+ * @version 1.2 29.03.2019
  */
 public class Calculator {
 
@@ -17,7 +17,7 @@ public class Calculator {
 
     public void startCalculator() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        BufReaderInput objReader  = new BufReaderInput(reader);
+        BufReaderInput objReader = new BufReaderInput(reader);
 
         Addition objAdd = new Addition();
         Subtraction objSub = new Subtraction();
@@ -26,9 +26,6 @@ public class Calculator {
         Factorial objFact = new Factorial();
 
         Number arg1, arg2;
-        int iVar1, iVar2;
-        long lVar1, lVar2;
-        double dVar1, dVar2;
         double fact;  // factorial
 
         String operation;
@@ -51,8 +48,7 @@ public class Calculator {
                 arg1 = objReader.inputNumber("Enter x:");
 
                 // Input operation
-                operation = objReader.inputStringByPattern("Choose operation ( + - * ^ ! ) : ",
-                                                           "[+*^!-]");
+                operation = objReader.inputStringByPattern("Choose operation ( + - * ^ ! ) : ", "[+*^!-]");
 
                 // Input second argument arg2
                 switch (operation) {
@@ -73,77 +69,23 @@ public class Calculator {
                 System.out.print(" -> RESULT: ");
                 switch (operation) {
                     case "+":
-                        // TODO лучше было бы использовать && instead of || до второй части как правило не доходит
                         // TODO логику операций +, -, * и ^ лучше спрятать в соответствующих классах
-                        if ((arg1 instanceof Double) || (arg2 instanceof Double)) {
-                            // TODO agr*.*Value() можно передавать сразу как параметры в метод
-                            dVar1 = arg1.doubleValue();
-                            dVar2 = arg2.doubleValue();
-                            System.out.println(dVar1 + " + " + dVar2 + " = " + objAdd.add(dVar1, dVar2));
-                            // TODO лучше было бы использовать && instead of || до второй части как правило не доходит
-                        } else if ((arg1 instanceof Long) || (arg2 instanceof Long)) {
-                            lVar1 = arg1.longValue();
-                            lVar2 = arg2.longValue();
-                            System.out.println(lVar1 + " + " + lVar2 + " = " + objAdd.add(lVar1, lVar2));
-                        } else {
-                            iVar1 = arg1.intValue();
-                            iVar2 = arg2.intValue();
-                            System.out.println(iVar1 + " + " + iVar2 + " = " + objAdd.add(iVar1, iVar2));
-                        }
+                        objAdd.addResult(arg1, arg2);
                         break;
                     case "-":
-                        // TODO лучше было бы использовать && instead of || до второй части как правило не доходит
-                        if ((arg1 instanceof Double) || (arg2 instanceof Double)) {
-                            dVar1 = arg1.doubleValue();
-                            dVar2 = arg2.doubleValue();
-                            System.out.println(dVar1 + " - " + dVar2 + " = " + objSub.subtract(dVar1, dVar2));
-                            // TODO лучше было бы использовать && instead of || до второй части как правило не доходит
-                        } else if ((arg1 instanceof Long) || (arg2 instanceof Long)) {
-                            lVar1 = arg1.longValue();
-                            lVar2 = arg2.longValue();
-                            System.out.println(lVar1 + " - " + lVar2 + " = " + objSub.subtract(lVar1, lVar2));
-                        } else {
-                            iVar1 = arg1.intValue();
-                            iVar2 = arg2.intValue();
-                            System.out.println(iVar1 + " - " + iVar2 + " = " + objSub.subtract(iVar1, iVar2));
-                        }
+                        objSub.subResult(arg1, arg2);
                         break;
                     case "*":
-                        // TODO лучше было бы использовать && instead of || до второй части как правило не доходит
-                        if ((arg1 instanceof Double) || (arg2 instanceof Double)) {
-                            dVar1 = arg1.doubleValue();
-                            dVar2 = arg2.doubleValue();
-                            System.out.println(dVar1 + " * " + dVar2 + " = " + objMult.multiply(dVar1, dVar2));
-                            // TODO лучше было бы использовать && instead of || до второй части как правило не доходит
-                        } else if ((arg1 instanceof Long) || (arg2 instanceof Long)) {
-                            lVar1 = arg1.longValue();
-                            lVar2 = arg2.longValue();
-                            System.out.println(lVar1 + " * " + lVar2 + " = " + objMult.multiply(lVar1, lVar2));
-                        } else {
-                            iVar1 = arg1.intValue();
-                            iVar2 = arg2.intValue();
-                            System.out.println(iVar1 + " * " + iVar2 + " = " + objMult.multiply(iVar1, iVar2));
-                        }
+                        objMult.multResult(arg1, arg2);
                         break;
                     case "^":
-                        iVar2 = arg2.intValue();
-                        if (arg1 instanceof Double) {
-                            dVar1 = arg1.doubleValue();
-                            System.out.println(dVar1 + " ^ " + iVar2 + " = " + objPow.power(dVar1, iVar2));
-                        } else if (arg1 instanceof Long) {
-                            lVar1 = arg1.longValue();
-                            System.out.println(lVar1 + " ^ " + iVar2 + " = " + objPow.power(lVar1, iVar2));
-                        } else {
-                            iVar1 = arg1.intValue();
-                            System.out.println(iVar1 + " ^ " + iVar2 + " = " + objPow.power(iVar1, iVar2));
-                        }
+                        objPow.powResult(arg1, arg2);
                         break;
                     case "!":
                         if ((arg1 instanceof Integer) && (arg1.intValue() >= 0)) {
-                            iVar1 = arg1.intValue();
-                            fact = objFact.factorial(iVar1);
+                            fact = objFact.factorial(arg1.intValue());
                             if (fact > 0) {
-                                System.out.println(iVar1 + "! = " + fact);
+                                System.out.println(arg1.intValue() + "! = " + fact);
                             } else if (fact == -1) {
                                 System.out.println(" ERROR: Overflow.");
                             }
@@ -157,15 +99,21 @@ public class Calculator {
                 System.out.println();
 
                 // Input Q or q to exit
-                quit = objReader.inputStringByPattern("Press 'Enter' to continue or 'Q' to exit. ",
-                                                      "[qQ]*");
+                quit = objReader.inputStringByPattern("Press 'Enter' to continue or 'Q' to exit. ", "[qQ]*");
             }
             // TODO закрытие потоков ввода/вывода лучше закрывать в блоке finally
-            reader.close();
-            } catch (IOException e) {
+            //reader.close();
+        } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-            System.out.print("Bye-bye! See you later.");
+
+        System.out.print("Bye-bye! See you later.");
     }
 
 }

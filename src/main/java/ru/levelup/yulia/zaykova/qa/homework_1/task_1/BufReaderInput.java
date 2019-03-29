@@ -3,17 +3,23 @@ package ru.levelup.yulia.zaykova.qa.homework_1.task_1;
 import java.io.*;
 
 /**
- *  Класс для ввода данных с консоли через BufferedReader
+ * Класс для ввода данных с консоли через BufferedReader
  */
 public class BufReaderInput {
 
-    /** Ссылка на BufferedReader */
+    /**
+     * Ссылка на BufferedReader
+     */
     BufferedReader bufReader;
 
-    /** Поле для записи числа, введенного с консоли */
+    /**
+     * Поле для записи числа, введенного с консоли
+     */
     Number num = null;
 
-    /** Поле для строки, введенной в консоли*/
+    /**
+     * Поле для строки, введенной в консоли
+     */
     private String line;
 
 
@@ -36,10 +42,10 @@ public class BufReaderInput {
     public Number inputNumber(String prompt) throws IOException {
         input(prompt);
         // TODO new ParseString() - можно вынести как переменную в поле класса и инициализировать в конструкторе
-        num = new ParseString().parseNumber(line);
+        num = ParseString.parseNumber(line);
         while (num == null) {
             input("Wrong number format! Try again.  " + prompt);
-            num = new ParseString().parseNumber(line);
+            num = ParseString.parseNumber(line);
         }
         return num;
     }
@@ -53,10 +59,10 @@ public class BufReaderInput {
      */
     public Number inputIntNumber(String prompt) throws IOException {
         input(prompt);
-        num = new ParseString().parseNumber(line);
+        num = ParseString.parseNumber(line);
         while ((num == null) || !(num instanceof Integer)) {
             input("It's not an integer number! Try again.  " + prompt);
-            num = new ParseString().parseNumber(line);
+            num = ParseString.parseNumber(line);
         }
         return num;
     }
@@ -65,7 +71,7 @@ public class BufReaderInput {
      * Ввод с консоли строки, соответствующей заданному шаблону.
      * Пробелы в начале и конце строки обрезаются.
      *
-     * @param prompt Строка-приглашение
+     * @param prompt  Строка-приглашение
      * @param pattern Шаблон для ввода
      * @return Введенная с консоли строка
      * @throws IOException
@@ -89,7 +95,6 @@ public class BufReaderInput {
         System.out.print(prompt + " ");
         line = bufReader.readLine();
     }
-
 
 
 }

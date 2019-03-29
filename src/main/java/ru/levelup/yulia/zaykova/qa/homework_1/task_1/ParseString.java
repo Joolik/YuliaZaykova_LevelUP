@@ -30,16 +30,14 @@ public class ParseString {
      * @param str Строка
      * @return Число типа Number или null, если строка не может быть преобразована в число
      */
-    public Number parseNumber(String str){
-        if (isInteger(str)){
+    public static Number parseNumber(String str) {
+        if (isInteger(str)) {
             // TODO скобки не обязательны
-            return (new Integer(str));
-        }
-        else if (isLong(str)){
-            return (new Long(str));
-        }
-        else if (isDouble(str)){
-            return (Double.valueOf(str));
+            return new Integer(str);
+        } else if (isLong(str)) {
+            return new Long(str);
+        } else if (isDouble(str)) {
+            return Double.valueOf(str);
         }
         return null;
     }
@@ -51,12 +49,11 @@ public class ParseString {
      * @return Возвращает true, если строка может быть преобразована в int, иначе false
      */
     // TODO если метод не планируется использоваться за пределами класса, то лучше делать его private
-    public boolean isInteger(String str){
-        try{
+    private static boolean isInteger(String str) {
+        try {
             Integer.parseInt(str);
             return true;
-        }
-        catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             return false;
         }
     }
@@ -68,12 +65,11 @@ public class ParseString {
      * @return Возвращает true, если строка может быть преобразована в long, иначе false
      */
     // TODO если метод не планируется использоваться за пределами класса, то лучше делать его private
-    public boolean isLong(String str){
-        try{
+    private static boolean isLong(String str) {
+        try {
             Long.parseLong(str);
             return true;
-        }
-        catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             return false;
         }
     }
@@ -85,12 +81,11 @@ public class ParseString {
      * @return Возвращает true, если строка может быть преобразована в double, иначе false
      */
     // TODO если метод не планируется использоваться за пределами класса, то лучше делать его private
-    public boolean isDouble(String str){
-        try{
+    private static boolean isDouble(String str) {
+        try {
             Double.parseDouble(str);
             return true;
-        }
-        catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             return false;
         }
     }
