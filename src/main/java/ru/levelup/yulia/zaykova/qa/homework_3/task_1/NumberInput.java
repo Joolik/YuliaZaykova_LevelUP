@@ -15,7 +15,7 @@ public class NumberInput {
         return Double.parseDouble(line);
     }
 
-    public boolean isDouble(String str) {
+    private boolean isDouble(String str) {
         try {
             Double.parseDouble(str);
             return true;

@@ -18,12 +18,17 @@ public class Equation {
             a = in.inputDouble(" a = ", reader);
             b = in.inputDouble(" b = ", reader);
             c = in.inputDouble(" c = ", reader);
-            reader.close();
             System.out.println();
             eq.quadratic(a, b, c);
         } catch (IOException e) {
             System.out.println("IO Error!");
             e.printStackTrace();
+        } finally {
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -32,7 +37,6 @@ public class Equation {
 
         if (a != 0) {
             if ((b != 0) && (c !=0)) {
-                System.out.print("Full quadratic equation\n\nResult: ");
                 fullQuadraticEquation(a, b, c);
             } else {
                 System.out.print("Non-full quadratic equation\n\nResult: ");
@@ -66,6 +70,7 @@ public class Equation {
         double D = discriminant(a, b, c);
         double x1, x2;
 
+        System.out.print("Full quadratic equation\nDiscriminant = " + D +"\n\nResult: ");
         if (D > 0) {
             x1 = (-b + Math.sqrt(D)) / (2 * a);
             x2 = (-b - Math.sqrt(D)) / (2 * a);
