@@ -3,6 +3,9 @@ package ru.levelup.yulia.zaykova.qa.homework_3.task_1;
 import java.io.*;
 import java.util.Locale;
 
+/**
+ * Квадратное уравнение
+ */
 public class Equation {
 
     public static void main(String[] args) {
@@ -32,9 +35,9 @@ public class Equation {
         }
     }
 
+    // Решение квадратного уравнения
     public void quadratic (double a, double b, double c) {
         double x1, x2;
-
         if (a != 0) {
             if ((b != 0) && (c !=0)) {
                 fullQuadraticEquation(a, b, c);
@@ -43,12 +46,12 @@ public class Equation {
                 if (b == 0) {
                     if ( c == 0) {
                         x1 = 0;
-                        System.out.println(String.format(Locale.getDefault(), "x = %.2f" , x1));
+                        System.out.println(String.format(Locale.US, "x = %.2f" , x1));
                     } else {
                         if ( -c / a > 0) {
                             x1 = Math.sqrt(-c / a);
                             x2 = -Math.sqrt(-c / a);
-                            System.out.println(String.format(Locale.getDefault(), "x1 = %.2f  x2 = %.2f", x1, x2));
+                            System.out.println(String.format(Locale.US, "x1 = %.2f  x2 = %.2f", x1, x2));
                         } else {
                             System.out.println("Equation has no solution!");
                         }
@@ -56,7 +59,7 @@ public class Equation {
                 } else if (c == 0) {
                     x1 = 0;
                     x2 = -b / a;
-                    System.out.println(String.format(Locale.getDefault(), "x1 = %.2f  x2 = %.2f", x1, x2));
+                    System.out.println(String.format(Locale.US, "x1 = %.2f  x2 = %.2f", x1, x2));
                 }
             }
         } else {
@@ -66,6 +69,7 @@ public class Equation {
 
     }
 
+    // Решение полного квадратного уравнения
     private void fullQuadraticEquation  (double a, double b, double c) {
         double D = discriminant(a, b, c);
         double x1, x2;
@@ -74,20 +78,18 @@ public class Equation {
         if (D > 0) {
             x1 = (-b + Math.sqrt(D)) / (2 * a);
             x2 = (-b - Math.sqrt(D)) / (2 * a);
-            System.out.println(String.format(Locale.getDefault(), "x1 = %.2f  x2 = %.2f", x1, x2));
+            System.out.println(String.format(Locale.US, "x1 = %.2f  x2 = %.2f", x1, x2));
         } else if (D == 0) {
             x1 = -b / (2 * a);
-            System.out.println(String.format(Locale.getDefault(), "x1 = x2 = %.2f", x1));
+            System.out.println(String.format(Locale.US, "x1 = x2 = %.2f", x1));
         } else {
             System.out.println("Equation has no solution!");
         }
 
     }
 
+    // Вычисление дискриминанта
     private double discriminant(double a, double b, double c) {
         return (b * b - 4 * a * c);
     }
-
-
-
 }

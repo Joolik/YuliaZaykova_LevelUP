@@ -7,14 +7,7 @@ import java.io.*;
  */
 public class NumberInput {
 
-    /**
-     * Ввод с консоли
-     *
-     * @param prompt
-     * @param reader
-     * @return
-     * @throws IOException
-     */
+    // Ввод с консоли числа double
     public static double inputDouble(String prompt, BufferedReader reader) throws IOException {
         String line;
         System.out.print(prompt);
@@ -26,6 +19,7 @@ public class NumberInput {
         return Double.parseDouble(line);
     }
 
+    // Ввод с консоли размера списка
     public static int inputListSize(String prompt, BufferedReader reader) throws IOException {
         String line;
         System.out.print(prompt);
@@ -37,6 +31,7 @@ public class NumberInput {
         return Integer.parseInt(line);
     }
 
+    // Ввод с консоли границ диапазона - массив из двух чисел типа double
     public static double[] inputRange(BufferedReader reader) throws IOException {
         double[] range = new double[2];
         range[0] = inputDouble("Введите минимальную цену: ", reader);

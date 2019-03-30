@@ -46,5 +46,4 @@ public class Sku implements Comparable<Sku> {
         }
         return i;
     }
-
 }
