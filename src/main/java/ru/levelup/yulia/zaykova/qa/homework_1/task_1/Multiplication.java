@@ -21,11 +21,9 @@ public class Multiplication {
     }
 
     public void multResult(Number arg1, Number arg2) {
-        // TODO лучше было бы использовать && instead of || до второй части как правило не доходит
         if ((arg1 instanceof Double) || (arg2 instanceof Double)) {
             System.out.println(arg1.doubleValue() + " * " + arg2.doubleValue() + " = " +
                     multiply(arg1.doubleValue(), arg2.doubleValue()));
-            // TODO лучше было бы использовать && instead of || до второй части как правило не доходит
         } else if ((arg1 instanceof Long) || (arg2 instanceof Long)) {
             System.out.println(arg1.longValue() + " * " + arg2.longValue() + " = " +
                     multiply(arg1.longValue(), arg2.longValue()));
