@@ -3,25 +3,6 @@ package ru.levelup.yulia.zaykova.qa.homework_1.task_1;
 /**
  * Класс для преобразования строки в число
  */
-/* TODO по Java Code Convention блок try-catch-finally имеет следующий вид
- *  try {
- *      block code
- *  } catch (Exception e) {
- *      block code
- *  } finally {
- *      block code
- *  }
- *  if-else-if
- *  if {
- *      block code
- *  } else if {
- *      block code
- *  } else {
- *      block code
- *  }
- *  Для форматирования кода по Java Code Convention используйте CTRL+ALT+L (провеить проект)
- *  В данном классе все методы могут быть static
- */
 public class ParseString {
 
     /**
@@ -32,7 +13,6 @@ public class ParseString {
      */
     public static Number parseNumber(String str) {
         if (isInteger(str)) {
-            // TODO скобки не обязательны
             return new Integer(str);
         } else if (isLong(str)) {
             return new Long(str);
@@ -48,7 +28,6 @@ public class ParseString {
      * @param str Строка
      * @return Возвращает true, если строка может быть преобразована в int, иначе false
      */
-    // TODO если метод не планируется использоваться за пределами класса, то лучше делать его private
     private static boolean isInteger(String str) {
         try {
             Integer.parseInt(str);
@@ -64,7 +43,6 @@ public class ParseString {
      * @param str Строка
      * @return Возвращает true, если строка может быть преобразована в long, иначе false
      */
-    // TODO если метод не планируется использоваться за пределами класса, то лучше делать его private
     private static boolean isLong(String str) {
         try {
             Long.parseLong(str);
@@ -80,7 +58,6 @@ public class ParseString {
      * @param str Строка
      * @return Возвращает true, если строка может быть преобразована в double, иначе false
      */
-    // TODO если метод не планируется использоваться за пределами класса, то лучше делать его private
     private static boolean isDouble(String str) {
         try {
             Double.parseDouble(str);

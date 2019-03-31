@@ -69,7 +69,6 @@ public class Calculator {
                 System.out.print(" -> RESULT: ");
                 switch (operation) {
                     case "+":
-                        // TODO логику операций +, -, * и ^ лучше спрятать в соответствующих классах
                         objAdd.addResult(arg1, arg2);
                         break;
                     case "-":
@@ -101,7 +100,6 @@ public class Calculator {
                 // Input Q or q to exit
                 quit = objReader.inputStringByPattern("Press 'Enter' to continue or 'Q' to exit. ", "[qQ]*");
             }
-            // TODO закрытие потоков ввода/вывода лучше закрывать в блоке finally
             //reader.close();
         } catch (IOException e) {
             e.printStackTrace();
