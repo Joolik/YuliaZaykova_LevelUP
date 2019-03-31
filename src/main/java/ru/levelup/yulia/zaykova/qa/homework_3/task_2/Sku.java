@@ -4,6 +4,7 @@ package ru.levelup.yulia.zaykova.qa.homework_3.task_2;
  * Класс товара
  */
 public class Sku implements Comparable<Sku> {
+    // TODO Поля класса долны быть private
     String name;
     double price;
 
