@@ -9,9 +9,8 @@ public class NumberInput {
 
     // Ввод с консоли числа double
     public static double inputDouble(String prompt, BufferedReader reader) throws IOException {
-        String line;
         System.out.print(prompt);
-        line = reader.readLine();
+        String line = reader.readLine();
         while (!isDouble(line)) {
             System.out.print("ERROR: неверный формат. " + prompt);
             line = reader.readLine();
@@ -21,9 +20,8 @@ public class NumberInput {
 
     // Ввод с консоли размера списка
     public static int inputListSize(String prompt, BufferedReader reader) throws IOException {
-        String line;
         System.out.print(prompt);
-        line = reader.readLine();
+        String line = reader.readLine();
         while ((!isInteger(line)) || (Integer.parseInt(line) <= 0) || (Integer.parseInt(line) > SkuList.MAX_LIST_SIZE)) {
             System.out.print("ERROR: число должно быть целым от 1 до " + SkuList.MAX_LIST_SIZE + "\n" + prompt);
             line = reader.readLine();

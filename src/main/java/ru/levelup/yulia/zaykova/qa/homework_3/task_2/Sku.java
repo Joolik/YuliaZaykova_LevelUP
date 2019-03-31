@@ -4,9 +4,9 @@ package ru.levelup.yulia.zaykova.qa.homework_3.task_2;
  * Класс товара
  */
 public class Sku implements Comparable<Sku> {
-    // TODO Поля класса долны быть private
-    String name;
-    double price;
+    // TODO Поля класса должны быть private
+    private String name;
+    private double price;
 
     public Sku(String name, double price) {
         this.name = name;
