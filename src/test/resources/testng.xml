@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="TestSuiteAll" verbose="1" >
+    <test name="AllOperationsTest" >
+        <classes>
+            <class name="ru.levelup.yulia.zaykova.qa.homework_4.task_1.testng.SumTest" />
+            <class name="ru.levelup.yulia.zaykova.qa.homework_4.task_1.testng.SubTest" />
+            <class name="ru.levelup.yulia.zaykova.qa.homework_4.task_1.testng.MultTest" />
+            <class name="ru.levelup.yulia.zaykova.qa.homework_4.task_1.testng.DivTest" />
+        </classes>
+    </test>
+</suite>
