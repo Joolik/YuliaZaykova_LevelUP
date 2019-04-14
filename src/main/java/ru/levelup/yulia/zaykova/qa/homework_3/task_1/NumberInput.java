@@ -9,9 +9,9 @@ public class NumberInput {
 
     // Возвращает число, введенное с консоли
     public double inputDouble(String prompt, BufferedReader reader) throws IOException {
-        String line; // TODO данное объявление может быть убрано
+        //String line; // TODO данное объявление может быть убрано
         System.out.print(prompt);
-        line = reader.readLine();
+        String line = reader.readLine();
         while (!isDouble(line)) {
             System.out.print(" Wrong number format! Try again. " + prompt);
             line = reader.readLine();

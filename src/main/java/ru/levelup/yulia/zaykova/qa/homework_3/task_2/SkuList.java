@@ -60,23 +60,21 @@ public class SkuList {
     private double generatePrice() {
         double randomPrice = MIN_PRICE + Math.random() * MAX_PRICE;
         // TODO явное привеление типов тут не требуется
-        randomPrice = (double) (Math.floor(randomPrice * 100) / 100d);
+        randomPrice = Math.floor(randomPrice * 100) / 100d;
         return randomPrice;
     }
 
     // Возвращает среднюю стоимость товаров в списке
     public double avgPrice() {
         // TODO явное привеление типов тут не требуется
-        return (double) (Math.round(summaryPrice * 100 / skuList.size()) / 100d);
+        return Math.round(summaryPrice * 100 / skuList.size()) / 100d;
     }
 
     // Возвращает список товаров в заданном диапазоне цен (включая границы диапазона)
     public List<Sku> getSkuInRange(double minPrice, double maxPrice) {
         List<Sku> outputList = null;
         // TODO Не обязательно явно инициалзировать переменные int indexMin = findSkuByPrice(skuList, minPrice);
-        int indexMin = 0;
-
-        indexMin = findSkuByPrice(skuList, minPrice);
+        int indexMin = findSkuByPrice(skuList, minPrice);
         if (indexMin >= skuList.size()) {
             outputList = null;
         } else {
@@ -98,7 +96,7 @@ public class SkuList {
     public List<Sku> getSkuAvgPrice() {
         List<Sku> outputList = null;
 
-        int index = findSkuByPrice(skuList, avgPrice() + 20);
+        int index = findSkuByPrice(skuList, avgPrice() + 20.0);
         if (index < skuList.size()) {
             outputList = skuList.subList(index, skuList.size());
         }
