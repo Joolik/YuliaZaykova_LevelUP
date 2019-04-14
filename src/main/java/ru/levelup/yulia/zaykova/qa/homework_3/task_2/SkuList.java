@@ -59,21 +59,18 @@ public class SkuList {
     // Возвращает число из диапазона [MIN_PRICE, MAX_PRICE], округленное до двух знаков после запятой
     private double generatePrice() {
         double randomPrice = MIN_PRICE + Math.random() * MAX_PRICE;
-        // TODO явное привеление типов тут не требуется
         randomPrice = Math.floor(randomPrice * 100) / 100d;
         return randomPrice;
     }
 
     // Возвращает среднюю стоимость товаров в списке
     public double avgPrice() {
-        // TODO явное привеление типов тут не требуется
         return Math.round(summaryPrice * 100 / skuList.size()) / 100d;
     }
 
     // Возвращает список товаров в заданном диапазоне цен (включая границы диапазона)
     public List<Sku> getSkuInRange(double minPrice, double maxPrice) {
         List<Sku> outputList = null;
-        // TODO Не обязательно явно инициалзировать переменные int indexMin = findSkuByPrice(skuList, minPrice);
         int indexMin = findSkuByPrice(skuList, minPrice);
         if (indexMin >= skuList.size()) {
             outputList = null;

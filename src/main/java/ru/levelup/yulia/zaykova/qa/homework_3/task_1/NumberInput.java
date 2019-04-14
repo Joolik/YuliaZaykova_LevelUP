@@ -9,7 +9,6 @@ public class NumberInput {
 
     // Возвращает число, введенное с консоли
     public double inputDouble(String prompt, BufferedReader reader) throws IOException {
-        //String line; // TODO данное объявление может быть убрано
         System.out.print(prompt);
         String line = reader.readLine();
         while (!isDouble(line)) {
