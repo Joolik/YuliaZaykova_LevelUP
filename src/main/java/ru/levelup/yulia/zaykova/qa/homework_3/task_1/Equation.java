@@ -38,14 +38,12 @@ public class Equation {
     // Решение квадратного уравнения
     public void quadratic(double a, double b, double c) {
         double x1, x2;
-        // TODO Можно проверить в одном условии что a, b и c не равно 0
         if ((a != 0) && (b != 0) && (c != 0)) {
             fullQuadraticEquation(a, b, c);
         } else if (a == 0) {
             System.out.println("This isn't a quadratic equation!");
         } else {
             System.out.print("Non-full quadratic equation\n\nResult: ");
-            // TODO Можно проверить в одном условии что b и c равно 0
             if ((b == 0) && (c == 0)) {
                 x1 = 0;
                 System.out.println(String.format(Locale.US, "x = %.2f", x1));
@@ -54,7 +52,6 @@ public class Equation {
                 x2 = -b / a;
                 System.out.println(String.format(Locale.US, "x1 = %.2f  x2 = %.2f", x1, x2));
             } else if ((-c / a) > 0) {
-                // TODO Это может быть заменено на else - if
                     x1 = Math.sqrt(-c / a);
                     x2 = -Math.sqrt(-c / a);
                     System.out.println(String.format(Locale.US, "x1 = %.2f  x2 = %.2f", x1, x2));
