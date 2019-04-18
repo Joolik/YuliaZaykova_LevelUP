@@ -37,9 +37,11 @@ public class AddProjectTest {
     public void addProjectTest() {
 
         // Maximize window
+        // TODO Это настройка, которую лучше выносить в Before
         driver.manage().window().maximize();
 
         // Open test site by URL
+        // TODO Если не предполагается возможности использования других страниц для отнрытия, то тоже лучше в вынести в before
         driver.get("http://khda91.fvds.ru/mantisbt/");
 
         // Assert browser title
@@ -67,6 +69,7 @@ public class AddProjectTest {
         }
 
         // Click Manage Projects
+        // TODO Можно было использовать By.partialLinkText || By.linkText
         driver.findElement(By.xpath("//ul[contains(@class,'nav-tabs')]//a[text()='Manage Projects']")).click();
 
         // Check "Create new project" button
@@ -78,7 +81,9 @@ public class AddProjectTest {
 
         // Check fields on the "Add project" view
 
+        // TODO Map<String, String> был бы лучше чем List<String[]>
         List<String[]> expectedFields = new ArrayList<>();
+        // TODO Можно использовать By.id как параметер
         expectedFields.add(new String[]{"* Project Name", "//input[@id='project-name']"});
         expectedFields.add(new String[]{"Status", "//select[@id='project-status']"});
         expectedFields.add(new String[]{"Inherit Global Categories", "//input[@id='project-inherit-global']"});
@@ -93,6 +98,7 @@ public class AddProjectTest {
         int i = 0;
         for (String[] key : expectedFields) {
             softAssert.assertEquals(actualWE.get(i).findElement(By.xpath("./td[1]")).getText().trim(), key[0]);
+            // TODO actualWE.get(i).findElements(key[1])
             softAssert.assertEquals(actualWE.get(i).findElements(By.xpath("./td[2]" + key[1])).size(), 1,
                     "Number of elememts " + key[1] + " =" + actualWE.get(i).findElements(By.xpath("./td[2]" + key[1])).size());
             i++;
@@ -106,13 +112,16 @@ public class AddProjectTest {
         String description = "Test description for " + projectName + "!";
 
         // Fill Project name
+        // TODO By.id
         driver.findElement(By.xpath("//input[@id='project-name']")).sendKeys(projectName);
 
         // Select Status
+        // TODO By.id
         Select selectStatus = new Select(driver.findElement(By.xpath("//select[@id='project-status']")));
         selectStatus.selectByVisibleText(status);
 
         // Checkbox
+        // TODO By.id
         if (driver.findElement(By.xpath("//input[@id='project-inherit-global']")).isSelected()) {
             driver.findElement(By.xpath("//input[@id='project-inherit-global']/parent::label")).click();
         }
@@ -122,6 +131,7 @@ public class AddProjectTest {
         selectViewStatus.selectByVisibleText(viewStatus);
 
         // Fill Description
+        // TODO By.id
         driver.findElement(By.xpath("//textarea[@id='project-description']")).sendKeys(description);
 
         // Click "Add project" button
