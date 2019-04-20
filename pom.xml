@@ -104,9 +104,10 @@
                     </properties>
                     <threadCount>1</threadCount>
                     <!--groups>MultDivCategory</groups-->
-                    <suiteXmlFiles>
-                        <suiteXmlFile>${testng.version}</suiteXmlFile>
-                    </suiteXmlFiles>
+                    <!--suiteXmlFiles-->
+                        <!--suiteXmlFile>${testng.version}</suiteXmlFile-->
+                        <!--suiteXmlFile>testSelenium.xml</suiteXmlFile-->
+                    <!--/suiteXmlFiles-->
                 </configuration>
             </plugin>
         </plugins>

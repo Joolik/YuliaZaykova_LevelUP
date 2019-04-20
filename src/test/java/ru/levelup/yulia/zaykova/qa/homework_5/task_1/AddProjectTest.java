@@ -31,10 +31,6 @@ public class AddProjectTest {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--lang=en");
         driver = new ChromeDriver(options);
-    }
-
-    @Test
-    public void addProjectTest() {
 
         // Maximize window
         // TODO Это настройка, которую лучше выносить в Before
@@ -43,6 +39,10 @@ public class AddProjectTest {
         // Open test site by URL
         // TODO Если не предполагается возможности использования других страниц для отнрытия, то тоже лучше в вынести в before
         driver.get("http://khda91.fvds.ru/mantisbt/");
+    }
+
+    @Test
+    public void addProjectTest() {
 
         // Assert browser title
         assertThat(driver.getTitle(), equalTo("MantisBT"));
@@ -67,10 +67,11 @@ public class AddProjectTest {
                 break;
             }
         }
+        assertThat(driver.getTitle(), equalTo("Manage - MantisBT"));
 
         // Click Manage Projects
         // TODO Можно было использовать By.partialLinkText || By.linkText
-        driver.findElement(By.xpath("//ul[contains(@class,'nav-tabs')]//a[text()='Manage Projects']")).click();
+        driver.findElement(By.linkText("Manage Projects")).click();
 
         // Check "Create new project" button
         WebElement btnNewProject = driver.findElement(By.xpath("//button[text()='Create New Project']"));
@@ -82,57 +83,66 @@ public class AddProjectTest {
         // Check fields on the "Add project" view
 
         // TODO Map<String, String> был бы лучше чем List<String[]>
-        List<String[]> expectedFields = new ArrayList<>();
         // TODO Можно использовать By.id как параметер
-        expectedFields.add(new String[]{"* Project Name", "//input[@id='project-name']"});
-        expectedFields.add(new String[]{"Status", "//select[@id='project-status']"});
-        expectedFields.add(new String[]{"Inherit Global Categories", "//input[@id='project-inherit-global']"});
-        expectedFields.add(new String[]{"View Status", "//select[@id='project-view-state']"});
-        expectedFields.add(new String[]{"Description", "//textarea[@id='project-description']"});
+        Map<String, String> expectedFields = new LinkedHashMap<>();
+        expectedFields.put("* Project Name", "project-name");
+        expectedFields.put("Status", "project-status");
+        expectedFields.put("Inherit Global Categories", "project-inherit-global");
+        expectedFields.put("View Status", "project-view-state");
+        expectedFields.put("Description", "project-description");
 
-        List<WebElement> actualWE = driver.findElements(By.xpath("//div[@class='widget-body']//table//tr"));
+        List<WebElement> actualFields = driver.findElements(By.xpath("//div[@class='widget-body']//table//tr"));
+
         assertThat("Count of expected fields not equal to count of actual fields",
-                expectedFields.size(), equalTo(actualWE.size()));
+                expectedFields.size(), equalTo(actualFields.size()));
 
         SoftAssert softAssert = new SoftAssert();
+
+        Set<String> expectedFieldNames = expectedFields.keySet();
         int i = 0;
-        for (String[] key : expectedFields) {
-            softAssert.assertEquals(actualWE.get(i).findElement(By.xpath("./td[1]")).getText().trim(), key[0]);
+        for (String expectedFieldName : expectedFieldNames) {
+            softAssert.assertEquals(actualFields.get(i).findElement(By.xpath("./td[1]")).getText().trim(), expectedFieldName);
             // TODO actualWE.get(i).findElements(key[1])
-            softAssert.assertEquals(actualWE.get(i).findElements(By.xpath("./td[2]" + key[1])).size(), 1,
-                    "Number of elememts " + key[1] + " =" + actualWE.get(i).findElements(By.xpath("./td[2]" + key[1])).size());
+            softAssert.assertEquals(actualFields.get(i).findElements(By.id(expectedFields.get(expectedFieldName))).size(), 1,
+                    "Field \"" + expectedFieldName + "\": wrong number of elememts id=\"" + expectedFields.get(expectedFieldName) + "\":");
+
             i++;
         }
+
         softAssert.assertAll();
 
         // Fill project information
         String projectName = RandomStringUtils.randomAlphabetic(1) + "ProjYZ" + RandomStringUtils.randomNumeric(6);
         String status = "development";
         String viewStatus = "public";
-        String description = "Test description for " + projectName + "!";
+        String description = "Test description for " + projectName + " !";
 
         // Fill Project name
         // TODO By.id
-        driver.findElement(By.xpath("//input[@id='project-name']")).sendKeys(projectName);
+        driver.findElement(By.id("project-name")).sendKeys(projectName);
 
         // Select Status
         // TODO By.id
-        Select selectStatus = new Select(driver.findElement(By.xpath("//select[@id='project-status']")));
+        Select selectStatus = new Select(driver.findElement(By.id("project-status")));
         selectStatus.selectByVisibleText(status);
 
         // Checkbox
         // TODO By.id
-        if (driver.findElement(By.xpath("//input[@id='project-inherit-global']")).isSelected()) {
-            driver.findElement(By.xpath("//input[@id='project-inherit-global']/parent::label")).click();
+        // TODO 2Dmitry: С By.id ошибка. Не дает кликнуть по <input>, только по <span> или <label>
+        // TODO " WebDriverException: unknown error: Element <input type="checkbox" class="ace" id="project-inherit-global" name="inherit_global" checked="checked"> is not clickable at point (408, 282). Other element would receive the click: <span class="lbl"></span>
+
+        if (driver.findElement(By.id("project-inherit-global")).isSelected()) {
+            driver.findElement(By.xpath("//input[@id='project-inherit-global']/following-sibling::span")).click();
+            //driver.findElement(By.id("project-inherit-global")).click();
         }
 
         // Select View Status
-        Select selectViewStatus = new Select(driver.findElement(By.xpath("//select[@id='project-view-state']")));
+        Select selectViewStatus = new Select(driver.findElement(By.id("project-view-state")));
         selectViewStatus.selectByVisibleText(viewStatus);
 
         // Fill Description
         // TODO By.id
-        driver.findElement(By.xpath("//textarea[@id='project-description']")).sendKeys(description);
+        driver.findElement(By.id("project-description")).sendKeys(description);
 
         // Click "Add project" button
         driver.findElement(By.xpath("//input[@type='submit' and contains(@value,'Add Project')]")).click();
@@ -144,10 +154,10 @@ public class AddProjectTest {
         // Map (key: column name, value: index)
         List<WebElement> listHead = driver.findElements(By.xpath("//div[contains(@class,'col-md-12' )]/div[contains(@class, 'widget-box')]//table//thead//a"));
         Map<String, Integer> mapHead = new HashMap<>();
-        int k = 1;
+        int indexOfColumn = 1;
         for (WebElement we : listHead) {
-            mapHead.put(we.getText().trim(), k);
-            k++;
+            mapHead.put(we.getText().trim(), indexOfColumn);
+            indexOfColumn++;
         }
 
         // List of projects

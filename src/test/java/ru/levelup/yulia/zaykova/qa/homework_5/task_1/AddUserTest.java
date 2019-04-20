@@ -22,6 +22,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 public class AddUserTest {
+
     private WebDriver driver;
 
     @BeforeMethod(alwaysRun = true)
@@ -30,10 +31,6 @@ public class AddUserTest {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--lang=en");
         driver = new ChromeDriver(options);
-    }
-
-    @Test
-    public void addProjectTest() {
 
         // Maximize window
         // TODO Это настройка, которую лучше выносить в Before
@@ -42,6 +39,10 @@ public class AddUserTest {
         // Open test site by URL
         // TODO Если не предполагается возможности использования других страниц для отнрытия, то тоже лучше в вынести в before
         driver.get("http://khda91.fvds.ru/mantisbt/");
+    }
+
+    @Test
+    public void addProjectTest() {
 
         // Assert browser title
         assertThat(driver.getTitle(), equalTo("MantisBT"));
@@ -66,10 +67,12 @@ public class AddUserTest {
                 break;
             }
         }
+        assertThat(driver.getTitle(), equalTo("Manage - MantisBT"));
 
         // Click "Manage Users" button at the top menu on the "Manage MantisBT" page
         // TODO Можно было использовать By.partialLinkText || By.linkText
-        driver.findElement(By.xpath("//ul[contains(@class,'nav-tabs')]//a[text()='Manage Users']")).click();
+        driver.findElement(By.partialLinkText("Manage Users")).click();
+        assertThat(driver.getTitle(), equalTo("Manage Users - MantisBT"));
 
         // Check "Create New Account" button
         WebElement btnNewProject = driver.findElement(By.xpath("//a[text()='Create New Account']"));
@@ -80,102 +83,115 @@ public class AddUserTest {
         // Check fields on the "Create New Account" view
 
         // TODO Map<String, String> был бы лучше чем List<String[]>
-        List<String[]> expectedFields = new ArrayList<>();
+        Map<String, String> expectedFields = new LinkedHashMap<>();
         // TODO Можно использовать By.id как параметер
-        expectedFields.add(new String[]{"Username", "//input[@id='user-username']"});
-        expectedFields.add(new String[]{"Real Name", "//input[@id='user-realname']"});
-        expectedFields.add(new String[]{"E-mail", "//input[@id='email-field']"});
-        expectedFields.add(new String[]{"Password", "//input[@id='user-password']"});
-        expectedFields.add(new String[]{"Verify Password", "//input[@id='user-verify-password']"});
-        expectedFields.add(new String[]{"Access Level", "//select[@id='user-access-level']"});
-        expectedFields.add(new String[]{"Enabled", "//input[@id='user-enabled']"});
-        expectedFields.add(new String[]{"Protected", "//input[@id='user-protected']"});
+        expectedFields.put("Username", "user-username");
+        expectedFields.put("Real Name", "user-realname");
+        expectedFields.put("E-mail", "email-field");
+        expectedFields.put("Password", "user-password");
+        expectedFields.put("Verify Password", "user-verify-password");
+        expectedFields.put("Access Level", "user-access-level");
+        expectedFields.put("Enabled", "user-enabled");
+        expectedFields.put("Protected", "user-protected");
 
+        List<WebElement> actualFields = driver.findElements(By.xpath("//div[@class='widget-body']//table//tr"));
 
-        List<WebElement> actualWE = driver.findElements(By.xpath("//div[@class='widget-body']//table//tr"));
         assertThat("Count of expected fields not equal to count of actual fields",
-                expectedFields.size(), equalTo(actualWE.size()));
+                expectedFields.size(), equalTo(actualFields.size()));
 
         SoftAssert softAssert = new SoftAssert();
+
+        Set<String> expectedFieldNames = expectedFields.keySet();
         int i = 0;
-        for (String[] key : expectedFields) {
-            softAssert.assertEquals(actualWE.get(i).findElement(By.xpath("./td[1]")).getText().trim(), key[0]);
+        for (String expectedFieldName : expectedFieldNames) {
+            softAssert.assertEquals(actualFields.get(i).findElement(By.xpath("./td[1]")).getText().trim(), expectedFieldName);
             // TODO actualWE.get(i).findElements(key[1])
-            softAssert.assertEquals(actualWE.get(i).findElements(By.xpath("./td[2]" + key[1])).size(), 1,
-                    "Number of elememts " + key[1] + " =" + actualWE.get(i).findElements(By.xpath("./td[2]" + key[1])).size());
+            softAssert.assertEquals(actualFields.get(i).findElements(By.id(expectedFields.get(expectedFieldName))).size(), 1,
+                    "Field \"" + expectedFieldName + "\": wrong number of elememts id=\"" + expectedFields.get(expectedFieldName) + "\":");
+
             i++;
         }
+
         softAssert.assertAll();
 
         // Fill user inforamtion
         String username = "UserYZ" + RandomStringUtils.randomNumeric(6);
         String realname = "Bobby Wong";
-        String email = username + "@gmail.com";
+        String email = username + "@qrail.com";
         String password = "yuGFGH7384dsf";
         String verifyPassword = password;
         String accessLevel = "reporter";
 
         // TODO By.id
-        driver.findElement(By.xpath("//input[@id='user-username']")).sendKeys(username);
+        driver.findElement(By.id("user-username")).sendKeys(username);
         // TODO By.id
-        driver.findElement(By.xpath("//input[@id='user-realname']")).sendKeys(realname);
+        driver.findElement(By.id("user-realname")).sendKeys(realname);
         // TODO By.id
-        driver.findElement(By.xpath("//input[@id='email-field']")).sendKeys(email);
+        driver.findElement(By.id("email-field")).sendKeys(email);
         // TODO By.id
-        driver.findElement(By.xpath("//input[@id='user-password']")).sendKeys(password);
+        driver.findElement(By.id("user-password")).sendKeys(password);
         // TODO By.id
-        driver.findElement(By.xpath("//input[@id='user-verify-password']")).sendKeys(verifyPassword);
+        driver.findElement(By.id("user-verify-password")).sendKeys(verifyPassword);
         // TODO By.id
-        Select selectStatus = new Select(driver.findElement(By.xpath("//select[@id='user-access-level']")));
+        Select selectStatus = new Select(driver.findElement(By.id("user-access-level")));
         selectStatus.selectByVisibleText(accessLevel);
         // TODO By.id
-        if (!driver.findElement(By.xpath("//input[@id='user-enabled']")).isSelected()) {
+        // TODO 2Dmitry: Ошибка "unknown error: Element <input type="checkbox" class="ace" id="user-enabled" name="enabled" checked="checked"> is not clickable at point (470, 452). Other element would receive the click: <span class="lbl"></span>
+        if (!driver.findElement(By.id("user-enabled")).isSelected()) {
             driver.findElement(By.xpath("//input[@id='user-enabled']/parent::label")).click();
         }
+        //if (driver.findElement(By.id("user-enabled")).isSelected()) {
+        //    driver.findElement(By.id("user-enabled")).click();
+        //}
         // TODO By.id
-        if (driver.findElement(By.xpath("//input[@id='user-protected']")).isSelected()) {
+        // TODO 2Dmitry: Ошибка "unknown error: Element <input type="checkbox" class="ace" id="user-protected" name="protected"> is not clickable at point (470, 484). Other element would receive the click: <span class="lbl"></span>
+        if (driver.findElement(By.id("user-protected")).isSelected()) {
             driver.findElement(By.xpath("//input[@id='user-protected']/parent::label")).click();
         }
+        //if (!driver.findElement(By.id("user-protected")).isSelected()) {
+        //    driver.findElement(By.id("user-protected")).click();
+        //}
 
         // Click "Create User" button
         driver.findElement(By.xpath("//input[@type='submit' and contains(@value,'Create User')]")).click();
 
         // Check added user info
         Wait<WebDriver> wait = new WebDriverWait(driver, 5, 1000);
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@value='Update User']")));
+        wait.until(ExpectedConditions.elementToBeClickable(By.partialLinkText("Manage Users")));
 
         // TODO By.partialLinkText || By.linkText
-        driver.findElement(By.xpath("//ul[contains(@class,'nav-tabs')]//a[text()='Manage Users']")).click();
+        driver.findElement(By.partialLinkText("Manage Users")).click();
 
-        // Map (key: column name, value: index)
-        List<WebElement> listHead = driver.findElements(By.xpath("//table//thead//a"));
-        Map<String, Integer> mapHead = new HashMap<>();
+        // Get index of column by column name
+        List<WebElement> listHead = driver.findElements(By.xpath("//div[contains(@class,'col-md-12' )]/div[contains(@class, 'widget-box')]//table//thead//a"));
+        Map<String, Integer> tableHead = new HashMap<>();
         // TODO что значит k
-        int k = 1;
+        int indexOfColumn = 1;
         for (WebElement we : listHead) {
-            mapHead.put(we.getText().trim(), k);
-            k++;
+            tableHead.put(we.getText().trim(), indexOfColumn);
+            indexOfColumn++;
         }
 
-        // List of projects
-        List<WebElement> projectsList = driver.findElements(By.xpath("//div[contains(@class,'col-md-12' )]/div[contains(@class, 'widget-box')]//table//tbody/tr"));
+        // List of users
+        List<WebElement> usersList = driver.findElements(By.xpath("//div[contains(@class,'col-md-12' )]/div[contains(@class, 'widget-box')]//table//tbody/tr"));
 
-        // Search project with Name = projectName
+        // Search user with name = username
         WebElement userInfo = null;
-        for (WebElement we : projectsList) {
-            if (we.findElement(By.xpath("./td[" + mapHead.get("Username") + "]")).getText().equals(username)) {
+        for (WebElement we : usersList) {
+            if (we.findElement(By.xpath("./td[" + tableHead.get("Username") + "]")).getText().equals(username)) {
                 userInfo = we;
                 // TODO break???
+                break;
             }
         }
 
-        assertThat("User with name " + userInfo + " not found", userInfo, notNullValue());
+        assertThat("User with name " + username + " not found", userInfo, notNullValue());
 
-        softAssert.assertEquals(userInfo.findElement(By.xpath("./td[" + mapHead.get("Real Name") + "]")).getText(), realname);
-        softAssert.assertEquals(userInfo.findElement(By.xpath("./td[" + mapHead.get("E-mail") + "]")).getText(), email);
-        softAssert.assertEquals(userInfo.findElement(By.xpath("./td[" + mapHead.get("Access Level") + "]")).getText(), accessLevel);
-        softAssert.assertNotNull(userInfo.findElements(By.xpath("./td[" + mapHead.get("Enabled") + "]/i")));
-        softAssert.assertEquals(userInfo.findElements(By.xpath("./td[" + mapHead.get("Protected") + "]/i")).size(), 0);
+        softAssert.assertEquals(userInfo.findElement(By.xpath("./td[" + tableHead.get("Real Name") + "]")).getText(), realname);
+        softAssert.assertEquals(userInfo.findElement(By.xpath("./td[" + tableHead.get("E-mail") + "]")).getText(), email);
+        softAssert.assertEquals(userInfo.findElement(By.xpath("./td[" + tableHead.get("Access Level") + "]")).getText(), accessLevel);
+        softAssert.assertNotNull(userInfo.findElements(By.xpath("./td[" + tableHead.get("Enabled") + "]/i")));
+        softAssert.assertEquals(userInfo.findElements(By.xpath("./td[" + tableHead.get("Protected") + "]/i")).size(), 0);
 
         softAssert.assertAll();
 
@@ -193,11 +209,6 @@ public class AddUserTest {
         assertThat(driver.findElement(By.cssSelector(".user-info")).getText(), equalToIgnoringCase(username));
 
         // TODO Не используйте пожалуйста Thread.sleep
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         // Logout
         driver.findElement(By.className("user-info")).click();
@@ -211,5 +222,4 @@ public class AddUserTest {
         driver.close();
         driver.quit();
     }
-
 }
