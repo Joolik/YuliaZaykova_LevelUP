@@ -53,7 +53,7 @@ public class FilterIssuesTest extends BaseTest {
         // Set filter values
         Properties properties = new Properties();
         try {
-            properties.load(new FileInputStream(new File("src\\test\\resources\\selenium\\FilterIssue.properties")));
+            properties.load(new FileInputStream(new File("src/test/resources/selenium/FilterIssue.properties")));
         } catch (IOException e) {
             e.printStackTrace();
         }

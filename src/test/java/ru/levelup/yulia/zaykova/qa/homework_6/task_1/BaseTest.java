@@ -22,7 +22,7 @@ public abstract class BaseTest {
         WebDriverManager.chromedriver().setup();
         properties = new Properties();
         try {
-            properties.load(new FileInputStream(new File("src\\test\\resources\\selenium\\data.properties")));
+            properties.load(new FileInputStream(new File("src/test/resources/selenium/data.properties")));
         } catch (IOException e) {
             e.printStackTrace();
         }

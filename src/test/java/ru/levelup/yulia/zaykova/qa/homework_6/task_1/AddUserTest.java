@@ -76,7 +76,7 @@ public class AddUserTest extends BaseTest {
         // Fill user inforamtion
         Properties properties = new Properties();
         try {
-            properties.load(new FileInputStream(new File("src\\test\\resources\\selenium\\NewUser.properties")));
+            properties.load(new FileInputStream(new File("src/test/resources/selenium/NewUser.properties")));
         } catch (IOException e) {
             e.printStackTrace();
         }
