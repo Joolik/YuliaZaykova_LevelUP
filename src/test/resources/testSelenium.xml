@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="TestSuiteAll" verbose="1" >
+    <test name="AllOperationsTest" >
+        <classes>
+            <class name="ru.levelup.yulia.zaykova.qa.homework_5.task_1.AddProjectTest" />
+            <class name="ru.levelup.yulia.zaykova.qa.homework_5.task_1.AddUserTest" />
+        </classes>
+    </test>
+</suite>

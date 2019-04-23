@@ -42,7 +42,7 @@ public class AddUserTest {
     }
 
     @Test
-    public void addProjectTest() {
+    public void addUserTest() {
 
         // Assert browser title
         assertThat(driver.getTitle(), equalTo("MantisBT"));
@@ -75,10 +75,10 @@ public class AddUserTest {
         assertThat(driver.getTitle(), equalTo("Manage Users - MantisBT"));
 
         // Check "Create New Account" button
-        WebElement btnNewProject = driver.findElement(By.xpath("//a[text()='Create New Account']"));
+        WebElement btnNewAccount = driver.findElement(By.xpath("//a[text()='Create New Account']"));
 
         // Click "Create New Account" button
-        btnNewProject.click();
+        btnNewAccount.click();
 
         // Check fields on the "Create New Account" view
 

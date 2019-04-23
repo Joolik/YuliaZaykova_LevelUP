@@ -153,10 +153,10 @@ public class AddProjectTest {
 
         // Map (key: column name, value: index)
         List<WebElement> listHead = driver.findElements(By.xpath("//div[contains(@class,'col-md-12' )]/div[contains(@class, 'widget-box')]//table//thead//a"));
-        Map<String, Integer> mapHead = new HashMap<>();
+        Map<String, Integer> tableHead = new HashMap<>();
         int indexOfColumn = 1;
         for (WebElement we : listHead) {
-            mapHead.put(we.getText().trim(), indexOfColumn);
+            tableHead.put(we.getText().trim(), indexOfColumn);
             indexOfColumn++;
         }
 
@@ -166,16 +166,16 @@ public class AddProjectTest {
         // Search project with Name = projectName
         WebElement projectInfo = null;
         for (WebElement we : projectsList) {
-            if (we.findElement(By.xpath("./td[" + mapHead.get("Name") + "]")).getText().equals(projectName)) {
+            if (we.findElement(By.xpath("./td[" + tableHead.get("Name") + "]")).getText().equals(projectName)) {
                 projectInfo = we;
             }
         }
 
         assertThat("Project with name " + projectName + " not found", projectInfo, notNullValue());
 
-        softAssert.assertEquals(projectInfo.findElement(By.xpath("./td[" + mapHead.get("Status") + "]")).getText(), status);
-        softAssert.assertEquals(projectInfo.findElement(By.xpath("./td[" + mapHead.get("View Status") + "]")).getText(), viewStatus);
-        softAssert.assertEquals(projectInfo.findElement(By.xpath("./td[" + mapHead.get("Description") + "]")).getText(), description);
+        softAssert.assertEquals(projectInfo.findElement(By.xpath("./td[" + tableHead.get("Status") + "]")).getText(), status);
+        softAssert.assertEquals(projectInfo.findElement(By.xpath("./td[" + tableHead.get("View Status") + "]")).getText(), viewStatus);
+        softAssert.assertEquals(projectInfo.findElement(By.xpath("./td[" + tableHead.get("Description") + "]")).getText(), description);
         softAssert.assertAll();
     }
 
