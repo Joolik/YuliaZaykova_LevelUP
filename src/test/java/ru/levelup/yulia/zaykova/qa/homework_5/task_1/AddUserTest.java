@@ -33,11 +33,9 @@ public class AddUserTest {
         driver = new ChromeDriver(options);
 
         // Maximize window
-        // TODO Это настройка, которую лучше выносить в Before
         driver.manage().window().maximize();
 
         // Open test site by URL
-        // TODO Если не предполагается возможности использования других страниц для отнрытия, то тоже лучше в вынести в before
         driver.get("http://khda91.fvds.ru/mantisbt/");
     }
 
@@ -70,7 +68,6 @@ public class AddUserTest {
         assertThat(driver.getTitle(), equalTo("Manage - MantisBT"));
 
         // Click "Manage Users" button at the top menu on the "Manage MantisBT" page
-        // TODO Можно было использовать By.partialLinkText || By.linkText
         driver.findElement(By.partialLinkText("Manage Users")).click();
         assertThat(driver.getTitle(), equalTo("Manage Users - MantisBT"));
 
@@ -82,9 +79,7 @@ public class AddUserTest {
 
         // Check fields on the "Create New Account" view
 
-        // TODO Map<String, String> был бы лучше чем List<String[]>
         Map<String, String> expectedFields = new LinkedHashMap<>();
-        // TODO Можно использовать By.id как параметер
         expectedFields.put("Username", "user-username");
         expectedFields.put("Real Name", "user-realname");
         expectedFields.put("E-mail", "email-field");
@@ -105,7 +100,6 @@ public class AddUserTest {
         int i = 0;
         for (String expectedFieldName : expectedFieldNames) {
             softAssert.assertEquals(actualFields.get(i).findElement(By.xpath("./td[1]")).getText().trim(), expectedFieldName);
-            // TODO actualWE.get(i).findElements(key[1])
             softAssert.assertEquals(actualFields.get(i).findElements(By.id(expectedFields.get(expectedFieldName))).size(), 1,
                     "Field \"" + expectedFieldName + "\": wrong number of elememts id=\"" + expectedFields.get(expectedFieldName) + "\":");
 
@@ -122,20 +116,13 @@ public class AddUserTest {
         String verifyPassword = password;
         String accessLevel = "reporter";
 
-        // TODO By.id
         driver.findElement(By.id("user-username")).sendKeys(username);
-        // TODO By.id
         driver.findElement(By.id("user-realname")).sendKeys(realname);
-        // TODO By.id
         driver.findElement(By.id("email-field")).sendKeys(email);
-        // TODO By.id
         driver.findElement(By.id("user-password")).sendKeys(password);
-        // TODO By.id
         driver.findElement(By.id("user-verify-password")).sendKeys(verifyPassword);
-        // TODO By.id
         Select selectStatus = new Select(driver.findElement(By.id("user-access-level")));
         selectStatus.selectByVisibleText(accessLevel);
-        // TODO By.id
         // TODO 2Dmitry: Ошибка "unknown error: Element <input type="checkbox" class="ace" id="user-enabled" name="enabled" checked="checked"> is not clickable at point (470, 452). Other element would receive the click: <span class="lbl"></span>
         if (!driver.findElement(By.id("user-enabled")).isSelected()) {
             driver.findElement(By.xpath("//input[@id='user-enabled']/parent::label")).click();
@@ -143,7 +130,6 @@ public class AddUserTest {
         //if (driver.findElement(By.id("user-enabled")).isSelected()) {
         //    driver.findElement(By.id("user-enabled")).click();
         //}
-        // TODO By.id
         // TODO 2Dmitry: Ошибка "unknown error: Element <input type="checkbox" class="ace" id="user-protected" name="protected"> is not clickable at point (470, 484). Other element would receive the click: <span class="lbl"></span>
         if (driver.findElement(By.id("user-protected")).isSelected()) {
             driver.findElement(By.xpath("//input[@id='user-protected']/parent::label")).click();
@@ -159,13 +145,11 @@ public class AddUserTest {
         Wait<WebDriver> wait = new WebDriverWait(driver, 5, 1000);
         wait.until(ExpectedConditions.elementToBeClickable(By.partialLinkText("Manage Users")));
 
-        // TODO By.partialLinkText || By.linkText
         driver.findElement(By.partialLinkText("Manage Users")).click();
 
         // Get index of column by column name
         List<WebElement> listHead = driver.findElements(By.xpath("//div[contains(@class,'col-md-12' )]/div[contains(@class, 'widget-box')]//table//thead//a"));
         Map<String, Integer> tableHead = new HashMap<>();
-        // TODO что значит k
         int indexOfColumn = 1;
         for (WebElement we : listHead) {
             tableHead.put(we.getText().trim(), indexOfColumn);
@@ -180,7 +164,6 @@ public class AddUserTest {
         for (WebElement we : usersList) {
             if (we.findElement(By.xpath("./td[" + tableHead.get("Username") + "]")).getText().equals(username)) {
                 userInfo = we;
-                // TODO break???
                 break;
             }
         }
@@ -207,8 +190,6 @@ public class AddUserTest {
 
         // Assert User name in the right-top side of screen that user is loggined
         assertThat(driver.findElement(By.cssSelector(".user-info")).getText(), equalToIgnoringCase(username));
-
-        // TODO Не используйте пожалуйста Thread.sleep
 
         // Logout
         driver.findElement(By.className("user-info")).click();

@@ -20,6 +20,7 @@ public class LoginPage extends BasePage {
         super(driver);
     }
 
+    // TODO Лучше было бы передавать объект, для поддержки будет проще в дальнейшем
     public void login(String username, String password) {
         this.username.sendKeys(username);
         btnLogin.click();

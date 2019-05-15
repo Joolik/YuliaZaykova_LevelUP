@@ -23,6 +23,7 @@ public class FilterIssuesTest extends BaseTest {
     @BeforeMethod(alwaysRun = true)
     public void setUp() {
         super.setUp();
+        // TODO Аналогичо как в классе AddUserTest
         loginPage = new LoginPage(driver);
         homePage = new HomePage(driver);
         viewIssuesPage = new ViewIssuesPage(driver);

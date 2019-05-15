@@ -28,6 +28,12 @@ public class AddUserTest extends BaseTest {
     @BeforeMethod(alwaysRun = true)
     public void setUp() {
         super.setUp();
+        /*
+         * TODO
+         *  Переопределение хороший способ, но можно использовать другой подход
+         *  В классе BaseTest объявить abstract void initPages();
+         *  и вызывать его в базовой версии setUp метода
+         */
         loginPage = new LoginPage(driver);
         homePage = new HomePage(driver);
         managePage = new ManagePage(driver);
