@@ -16,8 +16,10 @@ public abstract class BaseRequests {
     private static final String AUTH_TOKEN = "XNd5tIXXB7U8FV4C8w0nao0WYr5S0nN7";
 
     // TODO почему static?
+    // TODO 2Dmitry: потому что вызывается в статических методах в UserRequests, ProjectRequests и IssueRequests.
+    // TODO Без этого не работает.
     protected static RequestSpecification getRequestSpecificationWithBody(Object obj) {
-        return new RequestSpecBuilder()
+            return new RequestSpecBuilder()
                 .setBaseUri(TEST_BASE_URI)
                 .addHeader("Authorization", AUTH_TOKEN)
                 .setContentType(ContentType.JSON)
