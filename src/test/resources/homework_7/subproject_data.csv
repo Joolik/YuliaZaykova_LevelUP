@@ -1,0 +1,3 @@
+name,description,enabled,filePath,statusId,statusName,statusLabel,viewStateName
+ApiMainProject,Main project test description.,true,/tmp/,10,development,development,public
+ApiSubProject,Sub-project test description.,true,/tmp/,10,development,development,public

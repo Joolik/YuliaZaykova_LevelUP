@@ -1,0 +1,6 @@
+Here should be your logs!
+
+For example:
+java.lang.AssertionError: 1 expectation failed.
+Expected status code <204> but was <405>.
+...

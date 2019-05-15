@@ -1,0 +1,3 @@
+username,password,realName,email,accessLevelName,userEnabled,userProtected
+ApiUser,12345%Hz,"Serafima, Rubina",aus@rtyu.su,updater,true,false
+ApiUser2,67890rTys!,Lexa,lexa@bjdhfu.ru,reporter,true,false
