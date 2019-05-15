@@ -86,6 +86,7 @@ public class ManageUsersPage extends ManageBasePage {
         }
     }
 
+    // TODO Лучше было бы передавать объект, для поддержки будет проще в дальнейшем
     public void setAllFields(String userName, String realName, String email, String password, String verifyPassword,
                              String accessLevel, boolean userEnabled, boolean userProtected) {
         this.userName.sendKeys(userName);

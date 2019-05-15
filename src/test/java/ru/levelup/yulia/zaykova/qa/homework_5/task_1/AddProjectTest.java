@@ -33,11 +33,9 @@ public class AddProjectTest {
         driver = new ChromeDriver(options);
 
         // Maximize window
-        // TODO Это настройка, которую лучше выносить в Before
         driver.manage().window().maximize();
 
         // Open test site by URL
-        // TODO Если не предполагается возможности использования других страниц для отнрытия, то тоже лучше в вынести в before
         driver.get("http://khda91.fvds.ru/mantisbt/");
     }
 
@@ -70,7 +68,6 @@ public class AddProjectTest {
         assertThat(driver.getTitle(), equalTo("Manage - MantisBT"));
 
         // Click Manage Projects
-        // TODO Можно было использовать By.partialLinkText || By.linkText
         driver.findElement(By.linkText("Manage Projects")).click();
 
         // Check "Create new project" button
@@ -82,8 +79,6 @@ public class AddProjectTest {
 
         // Check fields on the "Add project" view
 
-        // TODO Map<String, String> был бы лучше чем List<String[]>
-        // TODO Можно использовать By.id как параметер
         Map<String, String> expectedFields = new LinkedHashMap<>();
         expectedFields.put("* Project Name", "project-name");
         expectedFields.put("Status", "project-status");
@@ -102,7 +97,6 @@ public class AddProjectTest {
         int i = 0;
         for (String expectedFieldName : expectedFieldNames) {
             softAssert.assertEquals(actualFields.get(i).findElement(By.xpath("./td[1]")).getText().trim(), expectedFieldName);
-            // TODO actualWE.get(i).findElements(key[1])
             softAssert.assertEquals(actualFields.get(i).findElements(By.id(expectedFields.get(expectedFieldName))).size(), 1,
                     "Field \"" + expectedFieldName + "\": wrong number of elememts id=\"" + expectedFields.get(expectedFieldName) + "\":");
 
@@ -118,16 +112,13 @@ public class AddProjectTest {
         String description = "Test description for " + projectName + " !";
 
         // Fill Project name
-        // TODO By.id
         driver.findElement(By.id("project-name")).sendKeys(projectName);
 
         // Select Status
-        // TODO By.id
         Select selectStatus = new Select(driver.findElement(By.id("project-status")));
         selectStatus.selectByVisibleText(status);
 
         // Checkbox
-        // TODO By.id
         // TODO 2Dmitry: С By.id ошибка. Не дает кликнуть по <input>, только по <span> или <label>
         // TODO " WebDriverException: unknown error: Element <input type="checkbox" class="ace" id="project-inherit-global" name="inherit_global" checked="checked"> is not clickable at point (408, 282). Other element would receive the click: <span class="lbl"></span>
 
@@ -141,7 +132,6 @@ public class AddProjectTest {
         selectViewStatus.selectByVisibleText(viewStatus);
 
         // Fill Description
-        // TODO By.id
         driver.findElement(By.id("project-description")).sendKeys(description);
 
         // Click "Add project" button
