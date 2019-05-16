@@ -7,6 +7,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import ru.levelup.yulia.zaykova.qa.homework_6.task_1.entities.User;
 import ru.levelup.yulia.zaykova.qa.homework_6.task_1.enums.LeftSideMenuItems;
 import ru.levelup.yulia.zaykova.qa.homework_6.task_1.enums.ManageTabItems;
 
@@ -25,15 +26,22 @@ public class AddUserTest extends BaseTest {
     private ManagePage managePage;
     private ManageUsersPage manageUsersPage;
 
-    @BeforeMethod(alwaysRun = true)
-    public void setUp() {
-        super.setUp();
+//    @BeforeMethod(alwaysRun = true)
+//    public void setUp() {
+//        super.setUp();
         /*
          * TODO
          *  Переопределение хороший способ, но можно использовать другой подход
          *  В классе BaseTest объявить abstract void initPages();
          *  и вызывать его в базовой версии setUp метода
          */
+//        loginPage = new LoginPage(driver);
+//        homePage = new HomePage(driver);
+//        managePage = new ManagePage(driver);
+//        manageUsersPage = new ManageUsersPage(driver);
+//    }
+
+    protected void initPages() {
         loginPage = new LoginPage(driver);
         homePage = new HomePage(driver);
         managePage = new ManagePage(driver);
@@ -47,7 +55,7 @@ public class AddUserTest extends BaseTest {
         assertThat(loginPage.getPageTitle(), equalTo(LoginPage.PAGE_TITLE));
 
         // Login as admin/admin
-        loginPage.login(getAdminUsername(), getAdminPassword());
+        loginPage.login(getAdmin());
 
         // Assert username in the right-top side of screen
         assertThat(homePage.getCurrUserName(), equalToIgnoringCase(getAdminUsername()));
@@ -87,16 +95,19 @@ public class AddUserTest extends BaseTest {
             e.printStackTrace();
         }
         String username = properties.getProperty("username") + RandomStringUtils.randomNumeric(6);
-        String realname = properties.getProperty("realname");
-        String email = username + properties.getProperty("email");
         String password = properties.getProperty("password");
-        String verifyPassword = properties.getProperty("verify.password", password);
-        String accessLevel = properties.getProperty("access.level");
-        boolean accountEnabled = Boolean.parseBoolean(properties.getProperty("enabled"));
-        boolean accountProtected = Boolean.parseBoolean(properties.getProperty("protected"));
+        User user = User.getBuilder()
+                .setUsername(username)
+                .setRealname(properties.getProperty("realname"))
+                .setEmail(username + properties.getProperty("email"))
+                .setPassword(password)
+                .setVerifyPassword(properties.getProperty("verify.password", password))
+                .setAccessLevel(properties.getProperty("access.level"))
+                .setUserEnabled(Boolean.parseBoolean(properties.getProperty("enabled")))
+                .setUserProtected(Boolean.parseBoolean(properties.getProperty("protected")))
+                .build();
 
-        manageUsersPage.setAllFields(username, realname, email, password, verifyPassword, accessLevel,
-                accountEnabled, accountProtected);
+        manageUsersPage.setAllFields(user);
 
         // Click "Create User" button
         manageUsersPage.submitCreateUser();
@@ -108,18 +119,18 @@ public class AddUserTest extends BaseTest {
         WebElement userInfo = manageUsersPage.findUserByName(username);
 
         assertThat("User with name " + username + " not found", userInfo, notNullValue());
-        softAssert.assertEquals(manageUsersPage.getUserRealName(userInfo), realname);
-        softAssert.assertEquals(manageUsersPage.getUserEmail(userInfo), email);
-        softAssert.assertEquals(manageUsersPage.getUserAccessLevel(userInfo), accessLevel);
-        softAssert.assertEquals(manageUsersPage.isEnabled(userInfo), accountEnabled);
-        softAssert.assertEquals(manageUsersPage.isProtected(userInfo), accountProtected);
+        softAssert.assertEquals(manageUsersPage.getUserRealName(userInfo), user.getRealname());
+        softAssert.assertEquals(manageUsersPage.getUserEmail(userInfo), user.getEmail());
+        softAssert.assertEquals(manageUsersPage.getUserAccessLevel(userInfo), user.getAccessLevel());
+        softAssert.assertEquals(manageUsersPage.isEnabled(userInfo), user.isUserEnabled());
+        softAssert.assertEquals(manageUsersPage.isProtected(userInfo), user.isUserProtected());
         softAssert.assertAll();
 
         // Logout
         manageUsersPage.logout();
 
         // Login under created user
-        loginPage.login(username, password);
+        loginPage.login(User.getBuilder().setUsername(username).setPassword(password).build());
 
         // Assert User name in the right-top side of screen that user is loggined
         assertThat(homePage.getCurrUserName(), equalToIgnoringCase(username));

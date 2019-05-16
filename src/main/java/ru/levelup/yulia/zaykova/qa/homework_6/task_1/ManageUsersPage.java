@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.levelup.yulia.zaykova.qa.homework_6.task_1.base.ManageBasePage;
+import ru.levelup.yulia.zaykova.qa.homework_6.task_1.entities.User;
 import ru.levelup.yulia.zaykova.qa.homework_6.task_1.enums.ManageTabItems;
 import ru.levelup.yulia.zaykova.qa.homework_6.task_1.utils.Helper;
 
@@ -87,16 +88,27 @@ public class ManageUsersPage extends ManageBasePage {
     }
 
     // TODO Лучше было бы передавать объект, для поддержки будет проще в дальнейшем
-    public void setAllFields(String userName, String realName, String email, String password, String verifyPassword,
-                             String accessLevel, boolean userEnabled, boolean userProtected) {
-        this.userName.sendKeys(userName);
-        this.realName.sendKeys(realName);
-        this.email.sendKeys(email);
-        this.password.sendKeys(password);
-        this.verifyPassword.sendKeys(verifyPassword);
-        Helper.selectDropDownItem(this.accessLevel, accessLevel);
-        Helper.setCheckbox(this.userEnabled, userEnabled);
-        Helper.setCheckbox(this.userProtected, userProtected);
+//    public void setAllFields(String userName, String realName, String email, String password, String verifyPassword,
+//                             String accessLevel, boolean userEnabled, boolean userProtected) {
+//        this.userName.sendKeys(userName);
+//        this.realName.sendKeys(realName);
+//        this.email.sendKeys(email);
+//        this.password.sendKeys(password);
+//        this.verifyPassword.sendKeys(verifyPassword);
+//        Helper.selectDropDownItem(this.accessLevel, accessLevel);
+//        Helper.setCheckbox(this.userEnabled, userEnabled);
+//        Helper.setCheckbox(this.userProtected, userProtected);
+//    }
+
+    public void setAllFields(User user) {
+        this.userName.sendKeys(user.getUsername());
+        this.realName.sendKeys(user.getRealname());
+        this.email.sendKeys(user.getEmail());
+        this.password.sendKeys(user.getPassword());
+        this.verifyPassword.sendKeys(user.getVerifyPassword());
+        Helper.selectDropDownItem(this.accessLevel, user.getAccessLevel());
+        Helper.setCheckbox(this.userEnabled, user.isUserEnabled());
+        Helper.setCheckbox(this.userProtected, user.isUserProtected());
     }
 
     public void submitCreateUser() {

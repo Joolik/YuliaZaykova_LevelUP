@@ -14,7 +14,7 @@ public class Helper {
     public static void setCheckbox(WebElement item, boolean selected) {
         // TODO !selected instead of (selected == false)
         // TODO selected instead of (selected == true)
-        if ((item.isSelected() && (selected == false)) | (!item.isSelected() && (selected == true))) {
+        if ((item.isSelected() && !selected) | (!item.isSelected() && selected)) {
             item.findElement(By.xpath("./parent::label")).click();
         }
     }

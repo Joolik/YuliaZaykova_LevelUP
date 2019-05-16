@@ -5,6 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.*;
+import ru.levelup.yulia.zaykova.qa.homework_6.task_1.entities.User;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -42,6 +44,7 @@ public abstract class BaseTest {
         driver.manage().timeouts().setScriptTimeout(Long.parseLong(properties.getProperty("browser.script.load.timeout.ms")), TimeUnit.MILLISECONDS);
         driver.manage().window().maximize();
         driver.get(properties.getProperty("url"));
+        initPages();
     }
 
     @AfterMethod(alwaysRun = true)
@@ -54,6 +57,10 @@ public abstract class BaseTest {
         driver.quit();
     }
 
+    protected User getAdmin() {
+        return User.getBuilder().setUsername(getAdminUsername()).setPassword(getAdminPassword()).build();
+    }
+
     protected String getAdminUsername() {
         return properties.getProperty("admin.username");
     }
@@ -61,4 +68,6 @@ public abstract class BaseTest {
     protected String getAdminPassword() {
         return properties.getProperty("admin.password");
     }
+
+    protected abstract void initPages();
 }
